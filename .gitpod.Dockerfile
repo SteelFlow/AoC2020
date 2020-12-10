@@ -5,7 +5,7 @@ RUN sudo sh -c '(echo "#!/usr/bin/env sh" && curl -L https://github.com/lihaoyi/
 
 RUN brew install scala sbt scalaenv
 
-RUN scalaenv install scala-2.13.2 && scalaenv global scala-2.13.2
+RUN scalaenv install scala-2.13.0 && scalaenv global scala-2.13.0
 
 # RUN brew install coursier/formulas/coursier
 
