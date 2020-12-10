@@ -1,0 +1,7 @@
+tasks:
+  - init: sbt
+    command: 'echo "TODO: Replace with command to start project"'
+
+vscode:
+  extensions:
+    - scalameta.metals@1.9.9:58wIleUzy0chRK057hPMGQ==
