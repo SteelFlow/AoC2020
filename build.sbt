@@ -1,4 +1,4 @@
-scalaVersion := "2.13.0"
+scalaVersion := "2.13.3"
 name := "aoc"
 version := "1.0"
 
