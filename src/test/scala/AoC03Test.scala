@@ -12,17 +12,10 @@ class AoC03Test extends AnyFunSuite {
 
   test("threeOver with overflow returns correct") {
     val line = input.head //..##.......
-    assert(AoC03.threeOver(line, 0) === 3)
-    assert(AoC03.threeOver(line, 3) === 6)
-    assert(AoC03.threeOver(line, 6) === 9)
-    assert(AoC03.threeOver(line, 9) === 1)
-    assert(AoC03.threeOver(line, 1) === 4)
-    assert(AoC03.threeOver(line, 4) === 7)
-    assert(AoC03.threeOver(line, 7) === 10)
-    assert(AoC03.threeOver(line, 10) === 2)
-    assert(AoC03.threeOver(line, 2) === 5)
-    assert(AoC03.threeOver(line, 5) === 8)
-    assert(AoC03.threeOver(line, 8) === 0)
+    assert(AoC03.stepOver(line, 0, 3) === 3)
+    assert(AoC03.stepOver(line, 7, 3) === 10)
+    assert(AoC03.stepOver(line, 10, 1) === 0)
+    assert(AoC03.stepOver(line, 8, 5) === 2)
   }
 
   test("isTree not tree returns false") {
@@ -35,7 +28,12 @@ class AoC03Test extends AnyFunSuite {
     assert(AoC03.isTree(line, 2) === 1)
   }
 
-  test("checkLines") {
-    assert(AoC03.checkLines(input, 0, 0, 0) === 7)
+  test("checkLines 3 1 = 7") {
+    assert(AoC03.checkLines(input, 0, 0, 0, 3, 1) === 7)
   }
+
+  test("checkLines 1 1 = 2") {
+    assert(AoC03.checkLines(input, 0, 0, 0, 1, 1) === 2)
+  }
+
 }
