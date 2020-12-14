@@ -15,6 +15,10 @@ object LoadInput {
     load(3)
   }
 
+  val load04 = () => {
+    load(4)
+  }
+
   private def load(day: Int): List[String] = {
     val num = f"${day}%02d"
     val path =
