@@ -50,7 +50,19 @@ object AoC04 extends App {
 
   val input = LoadInput.load04()
 
-  val res = getBatchedPassports(input)
+  val res1 = getBatchedPassports(input)
+    .filter(passport => {
+      passport.contains("byr") &&
+        passport.contains("iyr") &&
+        passport.contains("eyr") &&
+        passport.contains("hgt") &&
+        passport.contains("hcl") &&
+        passport.contains("ecl") &&
+        passport.contains("pid")
+    })
+    .length
+
+  val res2 = getBatchedPassports(input)
     .filter(passport => {
       passport.contains("byr") &&
         passport.contains("iyr") &&
@@ -63,6 +75,7 @@ object AoC04 extends App {
     .map(parsePassport)
     .length
 
-  println(s"Advent of Code 2020 04 part 1: $res")
+  println(s"Advent of Code 2020 04 part 1: $res1")
+  println(s"Advent of Code 2020 04 part 2: $res2")
 
 }
