@@ -2,10 +2,9 @@ import org.scalatest.funsuite.AnyFunSuite
 import utils.LoadInput
 
 class AoC04Test extends AnyFunSuite {
+  val input = LoadInput.load04()
 
   test("Test get next batch first batch") {
-    val input = LoadInput.load04()
-
     val res = AoC04.getNextPassportBatch(input)
 
     val expected =
@@ -17,8 +16,6 @@ class AoC04Test extends AnyFunSuite {
   }
 
   test("Test get next batch third batch") {
-    val input = LoadInput.load04()
-
     val res = AoC04.getNextPassportBatch(input, 6, 6)
 
     val expected =
@@ -31,23 +28,59 @@ class AoC04Test extends AnyFunSuite {
   }
 
   test("Test get next batch last batch") {
-    val input = LoadInput.load04()
-
     val res = AoC04.getNextPassportBatch(input, 11, 11)
 
     val expected =
       "hcl:#cfa07d eyr:2025 pid:166559648 iyr:2011 ecl:brn hgt:59in"
 
     assert(res._1 === 11)
-    assert(res._2 === 12)
+    assert(res._2 === 13)
     assert(res._3 === expected)
   }
 
   test("Get batched passports") {
-    val input = LoadInput.load04()
-
     val res = AoC04.getBatchedPassports(input)
 
-    assert(res.length === 4)
+    assert(res.length === 7)
   }
+
+  test("Filter passports with missing fields") {
+    val passports = AoC04.getBatchedPassports(input)
+    val filteredPassports = AoC04.filterPassportsWithMissingFields(passports)
+    assert(filteredPassports.length === 5)
+  }
+
+  test("Validate height - cm - valid height") {
+    val passports = AoC04.getBatchedPassports(input)
+    val filteredPassports = AoC04.filterPassportsWithMissingFields(passports)
+    val res = AoC04.validateHeight(filteredPassports.head)
+
+    assert(res === true)
+  }
+
+  test("Validate height - in - valid height") {
+    val passports = AoC04.getBatchedPassports(input)
+    val filteredPassports = AoC04.filterPassportsWithMissingFields(passports)
+    val res = AoC04.validateHeight(filteredPassports(2))
+    assert(res === true)
+  }
+
+  test("Validate height - in - invalid height") {
+    val passports = AoC04.getBatchedPassports(input)
+    val filteredPassports = AoC04.filterPassportsWithMissingFields(passports)
+    println(filteredPassports(3))
+    val res = AoC04.validateHeight(filteredPassports(3))
+
+    assert(res === false)
+  }
+
+  test("Validate height - cm - invalid height") {
+    val passports = AoC04.getBatchedPassports(input)
+    val filteredPassports = AoC04.filterPassportsWithMissingFields(passports)
+    println(filteredPassports(4))
+    val res = AoC04.validateHeight(filteredPassports(4))
+
+    assert(res === false)
+  }
+
 }
