@@ -1,6 +1,6 @@
 import utils.LoadInput
-
 import scala.annotation.tailrec
+
 object AoC04 extends App {
 
   @tailrec
@@ -48,57 +48,24 @@ object AoC04 extends App {
     }
   }
 
-  val validateYear =
-    (passport: String, passportField: String, min: Int, max: Int) => {
-      val startIndex = passport.indexOf(passportField) + 4
-      val endIndex = passport.indexOf(' ', startIndex) match {
-        case x if x == -1 => passport.length() - 1
-        case x            => x
-      }
-      passport
-        .substring(
-          startIndex,
-          endIndex
-        )
-        .toIntOption match {
-        case Some(x) if x >= min && x <= max => true
-        case _                               => false
-      }
+  def getField(passport: String, identifier: String) = {
+    val start = passport.indexOf(identifier)
+    val end = passport.indexOf(' ', start) match {
+      case x if x == -1 => passport.length() 
+      case x            => x 
     }
 
-  def validateHeight(passport: String) = {
-    val startIndex = passport.indexOf("hgt:") + 4
-    val endIndex = passport.indexOf(' ', startIndex) match {
-      case x if x == -1 => passport.length() - 2
-      case x            => x - 2
-    }
-    val typ = passport.substring(endIndex, endIndex + 2)
-
-    typ match {
-      case "cm" =>
-        passport
-          .substring(startIndex, endIndex)
-          .toIntOption match {
-          case Some(x) if x >= 150 && x <= 193 => true
-          case _                               => false
-        }
-      case "in" =>
-        passport
-          .substring(startIndex, endIndex)
-          .toIntOption match {
-          case Some(x) if x >= 59 && x <= 76 => true
-          case _ => false
-        }
-      case _ => false
-    }
+    passport.substring(start, end)
   }
 
-  def validatePassport(passport: String) {
-    validateYear(passport, "byr", 1920, 2002) &&
-    validateYear(passport, "iyr", 2010, 2020) &&
-    validateYear(passport, "eyr", 2020, 2002) &&
-    validateHeight(passport)
-    passport
+  def validatePassport(passport: String) = {
+    getField(passport, "eyr").matches("eyr:20(2\\d|30)") &&
+    getField(passport, "iyr").matches("iyr:20(1\\d|20)") &&
+    getField(passport, "byr").matches("byr:(19[2-9]\\d|200[0-2])") &&
+    getField(passport, "hgt").matches("hgt:((59|(6\\d)|(7[0-6]))(in)|(1[5-8]\\d|19[0-3])(cm))") &&
+    getField(passport, "hcl").matches("hcl:#([0-9a-f]){6}") &&
+    getField(passport, "ecl").matches("ecl:(amb|blu|brn|gry|grn|hzl|oth)") &&
+    getField(passport, "pid").matches("pid:(\\d){9}") 
   }
 
   def filterPassportsWithMissingFields(batchedPassports: List[String]) = {
@@ -118,8 +85,8 @@ object AoC04 extends App {
   val res1 = filterPassportsWithMissingFields(getBatchedPassports(input)).length
 
   val res2 = filterPassportsWithMissingFields(getBatchedPassports(input))
-    .map(validatePassport)
-    .length
+    .filter(x => validatePassport(x)).length
+
 
   println(s"Advent of Code 2020 04 part 1: $res1")
   println(s"Advent of Code 2020 04 part 2: $res2")
